@@ -2,10 +2,16 @@
 public class Constants 
 {
 	static final public int D = 54;
-	static final public int dataSize = 100000;
+	static final public int datasize = 100000;
 	static final public int familysize = 100;
 	static final public int L = 50;
 	static final public int M = 20;
+	static final public int Alter = 10;
+	static final public int bucketnum = 9973;
+	static final public float BaseR = 20;
+	static final public float c = (float) 1.2;
+	static final public int thresholdpoint = (int)(3 * datasize/bucketnum);
+	static final public float thresholdtable = (int)(0.4 * L);    
 	//static final public int b = 2;
 	//static final public int R = 30;
 	//static final public int tableSize = 40;//一个table对应一个ＬＳＨ，即一个ａ向量，所以familysize=tablesize

@@ -29,4 +29,8 @@ public class IO
 		
 		
 	}
+
+	public void diskwrite_int(String decision_file, int[] decision, int datasize) {
+		
+	}
 }

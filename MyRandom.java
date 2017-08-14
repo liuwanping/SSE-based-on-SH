@@ -17,4 +17,10 @@ public class MyRandom
 		Random random = new Random();
 		return (float) random.nextGaussian();
 	}
+	
+	public static int in_random(int max)
+	{
+		Random r=new Random();
+		return r.nextInt(max);
+	}
 }

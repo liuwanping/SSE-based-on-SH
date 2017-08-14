@@ -7,7 +7,7 @@ public class Main
 	{
 		
 		//数据集
-		float data[][] = new float[Constants.dataSize][Constants.D+1];
+		float data[][] = new float[Constants.datasize][Constants.D+1];
 		
 		//从文件里读数据集
 		IO io = new IO();
@@ -17,7 +17,9 @@ public class Main
 		
 		//建索引，加密索引，把索引存到文件（传给服务器）
 		SHGeneral shg=new SHGeneral();
-		shg.init();
+		shg.init(data);
+		SHSelection shs=new SHSelection();
+		shs.radius_selection("decision.dat",shg);
 		
 	}
 }
