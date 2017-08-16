@@ -11,7 +11,7 @@ public class Main
 		
 		//从文件里读数据集
 		IO io = new IO();
-		String fileName="E:/3-Tech/leetcode/SSE-based-on-SH/src/dataset/input.data";
+		String fileName="E:/3-Tech/leetcode/SSE-based-on-SH/src/dataset/dataset.data";
 		io.diskReadFloat(fileName,data);
 		System.out.println("data read from disk");
 		

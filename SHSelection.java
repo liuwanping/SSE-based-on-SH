@@ -1,10 +1,12 @@
+import java.io.IOException;
+
 
 public class SHSelection {
 	private int decisionsignal[] = new int[Constants.datasize];
 	private int hashkeylength[][] = new int[Constants.L][Constants.bucketnum];
 	private IO io=new IO();
 	
-	public void radius_selection(String decision_file,SHGeneral shg)
+	public void radius_selection(String decision_file,SHGeneral shg) throws IOException
 	{
 		for(int i=0;i<Constants.datasize;i++)
 		{
@@ -27,9 +29,10 @@ public class SHSelection {
 	            shg.decision[i] = Constants.Alter - 1;
 	        }
 	    }
-	    for(int i=0;i<Constants.datasize;i++)
+	    for(int i=0;i<20;i++)
 	    {
-	    	System.out.println("data"+i+"'s R:"+shg.decision[i]);
+	    	//if(i%100==0)
+	    		System.out.println("data"+i+"'s R:"+shg.decision[i]);
 	    }
 	 // Now store the radius decision and that the decision is avaliable
 	    shg.decisionavailable = true;
@@ -38,7 +41,7 @@ public class SHSelection {
 
 	private void radius_test(int Rrank,SHGeneral shg) 
 	{
-		System.out.println("SHSelection->radius_test R"+Rrank);
+		System.out.println("SHSelection->radius_test R "+Rrank);
 		for (int i = 0; i < Constants.L; i++) 
 		{
 			for (int j = 0; j < Constants.bucketnum; j++) 
@@ -51,14 +54,27 @@ public class SHSelection {
 	       of each concatenative function, hashkeylength stores this value.*/
 	    for(int k = 0; k < Constants.datasize; k++)
 	    {
-	        if(k % 100000 == 0) 
-	        	System.out.println("current hashing data ");
+	        if(k % 10000 == 0) 
+	        	System.out.println("current hashing data "+k);
 	        // Generate the hashtable for datapoint 'k' with given radius ratio index
 	        shg.tableindex(shg.dataproduct[k], Rrank, shg.datahashresult[k]);
 
 	        // Count the number of points in each bucket of each concatenative function
 	        for(int i = 0; i < Constants.L; i++) 
-	        	hashkeylength[i][shg.datahashresult[k][i] % Constants.bucketnum]++;
+	        {
+	        	long a=0;
+	        	if(shg.datahashresult[k][i]<0)
+	        	{
+	        		a=shg.datahashresult[k][i]&0xFFFFFFFFL;
+	        		hashkeylength[i][(int) (a % Constants.bucketnum)]++;
+	        	}
+	        	else
+	        	{
+	        		hashkeylength[i][(int) (shg.datahashresult[k][i] % Constants.bucketnum)]++;
+	        	}
+	        	
+	        }
+	        	
 	    }
 	    
 	    int sum = 0;        
@@ -70,8 +86,21 @@ public class SHSelection {
 	        int sumcount = 0;
 	        for(int j = 0; j < Constants.L; j++)
 	        {
-	            if(hashkeylength[j][shg.datahashresult[i][j] % Constants.bucketnum] >= Constants.thresholdpoint) 
-	            sumcount++;
+	        	long a=0;
+	        	if(shg.datahashresult[i][j]<0)
+	        	{
+	        		a=shg.datahashresult[i][j]&0xFFFFFFFFL;
+	        		if(hashkeylength[j][(int) (a % Constants.bucketnum)] >= Constants.thresholdpoint) 
+	        		{
+	        			 sumcount++;
+	        		}
+	        	}
+	        	else
+	        	{
+	        		if(hashkeylength[j][(int) (shg.datahashresult[i][j] % Constants.bucketnum)] >= Constants.thresholdpoint) 
+	    	            sumcount++;
+	        	}
+	            
 	        }
 
 //	        If the number of concatenative functions passing the thresholdpoints
@@ -87,7 +116,7 @@ public class SHSelection {
 	            }
 	        }
 	    }
-	    System.out.println("the round of"+Rrank+"is end");
+	    System.out.println("the round of "+Rrank+" is end");
 		
 	}
 }

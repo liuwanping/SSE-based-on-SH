@@ -127,7 +127,9 @@ public class SHGeneral
 				//^= 表示“异或”，两个数的二进制形式异或，相同取0，不同取1
 	            //System.out.println("datahashresult:["+l+","+i+":"+table[l]+"]");
 	        }
-	        System.out.println("table"+l+":"+table[l]);
+//	        if(table[l]<0)
+//	        	table[l]=table[l]&0xFFFFFFFFL;
+//	        System.out.println("table"+l+":"+table[l]);
 	    }
 	}
 	
