@@ -44,4 +44,18 @@ public class IO
 		out.close();
 		System.out.println("write R to file--END");
 	}
+	
+	//把每个data的KNN(k=20)写到文件里
+//	public void diskwriteknn_int(String decision_file, int[] decision, int datasize) throws IOException 
+//	{
+//		System.out.println("write R to file");
+//		File file = new File(decision_file);
+//		FileWriter out = new FileWriter(file);
+//		for(int i=0;i<decision.length;i++)
+//		{
+//			out.write(decision[i]+" ");
+//		}
+//		out.close();
+//		System.out.println("write R to file--END");
+//	}
 }

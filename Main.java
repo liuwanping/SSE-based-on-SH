@@ -15,11 +15,34 @@ public class Main
 		io.diskReadFloat(fileName,data);
 		System.out.println("data read from disk");
 		
-		//建索引，加密索引，把索引存到文件（传给服务器）
+		//为每个data选择合适的半径
 		SHGeneral shg=new SHGeneral();
 		shg.init(data);
 		SHSelection shs=new SHSelection();
 		shs.radius_selection("decision.dat",shg);
 		
+		//建立索引
+		SHindex shi=new SHindex();
+		shi.index_construct("decision.dat", shg);
+		
+		//test KNN
+//		KNN knn =new KNN();
+//		for(int i=0;i<Constants.datasize;i++)
+//		{
+//			knn.linearScan(data, data[i]);
+//			System.out.println(i+"'s knn:");
+//			for(int j=0;j<Constants.K;j++)
+//			{
+//				System.out.print("{"+knn.knnlist[j]+","+knn.distlist[j]+"}");
+//			}
+//			System.out.println();
+//		}
+		
+		//索引加密
+		
+		//把索引写入文件
+		
+		//执行查询
+		shi.query_execute(Constants.L,data[99000], shg);//data[99000]作为查询点
 	}
 }

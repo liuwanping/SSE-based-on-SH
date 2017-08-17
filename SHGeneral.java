@@ -2,7 +2,7 @@
 public class SHGeneral 
 {
 	private boolean isinit = false;
-	private float familyvector[][] = new float[Constants.familysize][Constants.D+1];
+	public float familyvector[][] = new float[Constants.familysize][Constants.D+1];
 	private int hashtableindex[][] = new int[Constants.L][Constants.M];
 	public float dataproduct[][] = new float[Constants.datasize][Constants.familysize]; 
 	public int decision[] = new int[Constants.datasize]; 
