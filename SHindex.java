@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -11,6 +12,9 @@ public class SHindex
 	
 	//查询结果
 	public ArrayList<Integer> query_result=new ArrayList<Integer>();
+	
+	IO io=new IO();
+	
 
 	
 	private void init_index()
@@ -27,7 +31,7 @@ public class SHindex
 		}
 	}
 	
-	public void index_construct(String decision_file,SHGeneral shg)
+	public void index_construct(String decision_file,SHGeneral shg) throws IOException
 	{
 		System.out.println("SHindex->index_construct");
 		
@@ -73,6 +77,8 @@ public class SHindex
 	         
 	    }
 	    //print_index();
+	    //把索引写到文件里
+	    io.diskwriteindex_int(index);
 	    System.out.println("SHindex->index_construct--END");
 	}
 
@@ -97,7 +103,7 @@ public class SHindex
 		}
 	}
 
-	public void query_execute(int Lused, float[] query,SHGeneral shg) 
+	public void query_execute(int Lused, float[] query,SHGeneral shg) throws IOException 
 	{
 		System.out.println("SHindex->query_execute");
 		float queryproduct[]=new float[Constants.familysize];
@@ -109,9 +115,9 @@ public class SHindex
 		{
 			shg.tableindex(queryproduct, i, querytableresult[i]);
 		}
-		for(int l=0;l<Lused;l++)
+		for(int a=0;a<Constants.Alter;a++)
 		{
-			for(int a=0;a<Constants.Alter;a++)
+			for(int l=0;l<Lused;l++)
 			{
 				long z=0;
 				int hashkey=0;
@@ -126,21 +132,31 @@ public class SHindex
 				}				
 				for(int dataid:index[l][a][hashkey].dataids)
 				{
-					query_result.add(dataid);
+					if(!query_result.contains(dataid))//如果这个dataid还没加入到结果list中加进去
+					{
+						query_result.add(dataid);
+					}						
 				}
 			}
 		}		
-		queryresultprint();
+		//把查询结果写到文件里
+		queryresultwrite();
 		System.out.println("SHindex->query_execute--END");
 	}
 	
-	public void queryresultprint()
+	public void queryresultwrite() throws IOException
 	{
-		System.out.println("查询结果：");
+		int result[]=new int[query_result.size()];
+		System.out.println("查询结果个数为："+query_result.size());
+		
+		int i=0;
 		for(int dataid:query_result)
 		{
-			System.out.print(dataid+"、");
+			result[i]=dataid;
+			i++;
 		}
-		System.out.println();
+			
+		io.diskwrite_int("query_result.txt", result);
+		
 	}
 }

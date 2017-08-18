@@ -36,7 +36,7 @@ public class SHSelection {
 	    }
 	 // Now store the radius decision and that the decision is avaliable
 	    shg.decisionavailable = true;
-	    io.diskwrite_int(decision_file, shg.decision, Constants.datasize);
+	    io.diskwrite_int(decision_file, shg.decision);
 	}
 
 	private void radius_test(int Rrank,SHGeneral shg) 
