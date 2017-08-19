@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class SHindex 
@@ -13,6 +14,7 @@ public class SHindex
 	//查询结果
 	public ArrayList<Integer> query_result=new ArrayList<Integer>();
 	
+	//写入文件用
 	IO io=new IO();
 	
 
@@ -76,33 +78,33 @@ public class SHindex
 	        }
 	         
 	    }
-	    //print_index();
+	    
+	    //置换索引的bucket
+	    permutation_index();
+	    
 	    //把索引写到文件里
 	    io.diskwriteindex_int(index);
 	    System.out.println("SHindex->index_construct--END");
 	}
 
-	public void print_index()
+	//随机置换index的bucket
+	public void permutation_index()
 	{
-		for(int l=0;l<Constants.L;l++)
+		for(int l=0;l<index.length;l++)
 		{
-			System.out.println("L="+l+":");
-			for(int a=0;a<Constants.Alter;a++)
+			for(int a=0;a<index[l].length;a++)
 			{
-				System.out.println("第"+a+"个R:");
-				for(int b=0;b<Constants.bucketnum;b++)
+				for(int b=0;b<index[l][a].length;b++)
 				{
-					System.out.println("trapdoor:"+index[l][a][b].trapdoor+":");
-					for(int dataid:index[l][a][b].dataids)
-					{
-						System.out.print("dataids"+dataid+"、");
-					}
-					System.out.println();				
+					int random=new Random().nextInt(index[l][a].length-1);
+					TrapdoorAndDataIDs temp=index[l][a][b];
+					index[l][a][b]=index[l][a][random];
+					index[l][a][random]=temp;
 				}
 			}
 		}
 	}
-
+	
 	public void query_execute(int Lused, float[] query,SHGeneral shg) throws IOException 
 	{
 		System.out.println("SHindex->query_execute");
@@ -129,14 +131,22 @@ public class SHindex
 				else
 				{
 					hashkey=querytableresult[a][l]%Constants.bucketnum;
-				}				
-				for(int dataid:index[l][a][hashkey].dataids)
-				{
-					if(!query_result.contains(dataid))//如果这个dataid还没加入到结果list中加进去
-					{
-						query_result.add(dataid);
-					}						
 				}
+				//遍历匹配trapdoor
+				for(int b=0;b<index[l][a].length;b++)
+				{
+					if(hashkey==index[l][a][b].trapdoor)
+					{
+						for(int dataid:index[l][a][b].dataids)
+						{
+							if(!query_result.contains(dataid))//如果这个dataid还没加入到结果list中加进去
+							{
+								query_result.add(dataid);
+							}						
+						}
+					}
+				}
+				
 			}
 		}		
 		//把查询结果写到文件里

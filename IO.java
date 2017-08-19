@@ -68,8 +68,6 @@ public class IO
 	public void diskwriteindex_int(TrapdoorAndDataIDs index[][][]) throws IOException 
 	{
 		System.out.println("write index to file");
-		//File file = new File(index_file);
-		//FileWriter out = new FileWriter(file);
 		for(int i=0;i<index.length;i++)
 		{
 			for(int j=0;j<index[i].length;j++)
@@ -79,10 +77,12 @@ public class IO
 				FileWriter out = new FileWriter(file);
 				for(int z=0;z<index[i][j].length;z++)
 				{
+					out.write("<"+index[i][j][z].trapdoor+"£¬");
 					for(int dataid:index[i][j][z].dataids)
 					{
 						out.write(dataid+"\t");
 					}
+					out.write(">");
 					out.write("\r\n");
 				}
 				out.close();

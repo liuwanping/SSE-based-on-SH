@@ -36,16 +36,12 @@ public class Main
 		SHSelection shs=new SHSelection();
 		shs.radius_selection("decision.dat",shg);
 		
-		//建立索引
+		//建立索引(加密(置换+对称加密)、写入文件)
 		SHindex shi=new SHindex();
 		shi.index_construct("decision.dat", shg);
-				
-		//索引加密
-		
-		//把索引写入文件
 		
 		//执行查询
-		shi.query_execute(Constants.L,data[0], shg);//data[99000]作为查询点
+		shi.query_execute(Constants.L,data[Constants.datasize-1], shg);//data[99000]作为查询点
 		
 		System.out.println("programme finished");
 	}
