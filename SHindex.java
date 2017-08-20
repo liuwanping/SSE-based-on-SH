@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+
 public class SHindex 
 {
 	//索引
@@ -72,7 +73,7 @@ public class SHindex
 	            // The multiplicative factor ensures that we get the proper layer to which this point belongs to
 	            trapdoor = shg.decision[i] * Constants.bucketnum + hashkey;
 	            
-	            index[j][trapdoor/Constants.bucketnum][hashkey].trapdoor=hashkey;
+	            index[j][trapdoor/Constants.bucketnum][hashkey].trapdoor=Integer.toString(hashkey);
 	            index[j][trapdoor/Constants.bucketnum][hashkey].dataids.add(i);
 	            
 	        }
@@ -82,6 +83,9 @@ public class SHindex
 	    //置换索引的bucket
 	    permutation_index();
 	    
+	    //加密索引的trapdoor
+	    AES.encrypt_index(index);
+	    
 	    //把索引写到文件里
 	    io.diskwriteindex_int(index);
 	    System.out.println("SHindex->index_construct--END");
@@ -90,6 +94,7 @@ public class SHindex
 	//随机置换index的bucket
 	public void permutation_index()
 	{
+		System.out.println("permutation_index");
 		for(int l=0;l<index.length;l++)
 		{
 			for(int a=0;a<index[l].length;a++)
@@ -103,7 +108,9 @@ public class SHindex
 				}
 			}
 		}
+		System.out.println("permutation_index--END");
 	}
+	
 	
 	public void query_execute(int Lused, float[] query,SHGeneral shg) throws IOException 
 	{
@@ -135,7 +142,7 @@ public class SHindex
 				//遍历匹配trapdoor
 				for(int b=0;b<index[l][a].length;b++)
 				{
-					if(hashkey==index[l][a][b].trapdoor)
+					if(AES.encrypt_trapdoor(hashkey).equals(index[l][a][b].trapdoor))
 					{
 						for(int dataid:index[l][a][b].dataids)
 						{
@@ -153,6 +160,8 @@ public class SHindex
 		queryresultwrite();
 		System.out.println("SHindex->query_execute--END");
 	}
+	
+	
 	
 	public void queryresultwrite() throws IOException
 	{
