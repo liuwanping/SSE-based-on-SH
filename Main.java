@@ -50,11 +50,14 @@ public class Main
 		for (int i = 0; i < shi.unique_trapdoor.length; i++) {
 			for (int j = 0; j < shi.unique_trapdoor[i].length; j++) {
 				for (int j2 = 0; j2 < shi.unique_trapdoor[i][j].length; j2++) {
-					for(int rand:shi.unique_trapdoor[i][j][j2].randomList)
-					{
-						System.out.print(shi.unique_trapdoor[i][j][j2]+"¡¢");
+					if (!shi.unique_trapdoor[i][j][j2].randomList.isEmpty()) {
+						for(int rand:shi.unique_trapdoor[i][j][j2].randomList)
+						{ 
+							System.out.print(rand+"¡¢");
+						}
+						System.out.println();
 					}
-					System.out.println();
+					
 				}
 			}
 		}
