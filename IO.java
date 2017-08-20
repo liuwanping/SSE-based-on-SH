@@ -63,7 +63,23 @@ public class IO
 		out.close();
 		System.out.println("write data's knn to file--END");
 	}
-	
+	//把二维数组写到文件（写familyvector到文件里）
+	public void diskwriteknn_float(String knn_file, float knn[][]) throws IOException 
+	{
+		System.out.println("write data's knn to file");
+		File file = new File(knn_file);
+		FileWriter out = new FileWriter(file);
+		for(int i=0;i<knn.length;i++)
+		{
+			for(int j=0;j<knn[i].length;j++)
+			{
+				out.write(knn[i][j]+"\t");
+			}
+			out.write("\r\n");
+		}
+		out.close();
+		System.out.println("write data's knn to file--END");
+	}
 	//把三维数组写到文件（把索引index写到文件）
 	public void diskwriteindex_int(TrapdoorAndDataIDs index[][][]) throws IOException 
 	{

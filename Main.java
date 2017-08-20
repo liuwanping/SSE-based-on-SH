@@ -36,13 +36,28 @@ public class Main
 		SHSelection shs=new SHSelection();
 		shs.radius_selection("decision.dat",shg);
 		
-		//建立索引(加密(置换+对称加密)、写入文件)
+		//建立索引(加密(置换+对称加密)、写入文件)，初始化unique_trapdoor
 		SHindex shi=new SHindex();
 		shi.index_construct("decision.dat", shg);
 		
-		//执行查询
-		shi.query_execute(Constants.L,data[Constants.datasize-1], shg);//data[99000]作为查询点
 		
+		//执行查询
+		shi.query_execute(Constants.L,data[0], shg,"query_result1.txt");//data[99000]作为查询点
+		shi.query_execute(Constants.L,data[0], shg,"query_result2.txt");//data[99000]作为查询点
+		shi.query_execute(Constants.L,data[0], shg,"query_result3.txt");//data[99000]作为查询点
+		
+		System.out.println("server2's unique_trapdoor:");
+		for (int i = 0; i < shi.unique_trapdoor.length; i++) {
+			for (int j = 0; j < shi.unique_trapdoor[i].length; j++) {
+				for (int j2 = 0; j2 < shi.unique_trapdoor[i][j].length; j2++) {
+					for(int rand:shi.unique_trapdoor[i][j][j2].randomList)
+					{
+						System.out.print(shi.unique_trapdoor[i][j][j2]+"、");
+					}
+					System.out.println();
+				}
+			}
+		}
 		System.out.println("programme finished");
 	}
 }

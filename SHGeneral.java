@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 
 public class SHGeneral 
 {
@@ -18,7 +20,7 @@ public class SHGeneral
 	    isinit = false;
 	    decisionavailable = false;
 	}
-	public void init(float data[][])
+	public void init(float data[][]) throws IOException
 	{
 		if(isinit)
 			return;
@@ -31,7 +33,7 @@ public class SHGeneral
 		
 	}
 
-	private void family_generator()
+	private void family_generator() throws IOException
 	{
 		System.out.println("SHGeneral->family_generator");
 		for(int i=0;i<Constants.familysize;i++)
@@ -42,6 +44,9 @@ public class SHGeneral
 				familyvector[i][j] =  (float) (familyvector[i][j]/Math.sqrt(Constants.D));
 			}
 		}
+		//把familyvector写到文件里
+		IO io=new IO();
+		io.diskwriteknn_float("familyvector", familyvector);
 		System.out.println("SHGeneral->family_generator--END");
 	}
 	

@@ -18,7 +18,13 @@ public class SHindex
 	//写入文件用
 	IO io=new IO();
 	
+	//随机数list
+	public TrapdoorAndRandomlList unique_trapdoor[][][]=new TrapdoorAndRandomlList[Constants.L][Constants.Alter][Constants.bucketnum];
+	
+	
 
+	//生成随机数用
+	Random random=new Random();
 	
 	private void init_index()
 	{
@@ -28,7 +34,8 @@ public class SHindex
 			{
 				for(int b=0;b<Constants.bucketnum;b++)
 				{
-					index[l][a][b]=new TrapdoorAndDataIDs();				
+					index[l][a][b]=new TrapdoorAndDataIDs();	
+					unique_trapdoor[l][a][b]=new TrapdoorAndRandomlList();
 				}
 			}
 		}
@@ -80,6 +87,9 @@ public class SHindex
 	         
 	    }
 	    
+	    //初始化unique_trapdoor
+	    init_unique_trapdoor();
+	    
 	    //置换索引的bucket
 	    permutation_index();
 	    
@@ -91,8 +101,21 @@ public class SHindex
 	    System.out.println("SHindex->index_construct--END");
 	}
 
+	private void init_unique_trapdoor()
+	{
+		for (int l = 0; l < unique_trapdoor.length; l++) 
+		{
+			for (int a = 0; a < unique_trapdoor[l].length; a++) 
+			{
+				for (int b = 0; b < unique_trapdoor[l][a].length; b++) 
+				{
+					unique_trapdoor[l][a][b].trapdoor=index[l][a][b].trapdoor;
+				}
+			}
+		}
+	}
 	//随机置换index的bucket
-	public void permutation_index()
+	private void permutation_index()
 	{
 		System.out.println("permutation_index");
 		for(int l=0;l<index.length;l++)
@@ -112,7 +135,7 @@ public class SHindex
 	}
 	
 	
-	public void query_execute(int Lused, float[] query,SHGeneral shg) throws IOException 
+	public void query_execute(int Lused, float[] query,SHGeneral shg,String query_result_file) throws IOException 
 	{
 		System.out.println("SHindex->query_execute");
 		float queryproduct[]=new float[Constants.familysize];
@@ -139,10 +162,16 @@ public class SHindex
 				{
 					hashkey=querytableresult[a][l]%Constants.bucketnum;
 				}
+				int randomSum=0;
+				for(int r:unique_trapdoor[l][a][hashkey].randomList)
+				{
+					randomSum=randomSum+r;
+				}
+				
 				//遍历匹配trapdoor
 				for(int b=0;b<index[l][a].length;b++)
 				{
-					if(AES.encrypt_trapdoor(hashkey).equals(index[l][a][b].trapdoor))
+					if(AES.encrypt_trapdoor(hashkey+randomSum).equals(index[l][a][b].trapdoor))
 					{
 						for(int dataid:index[l][a][b].dataids)
 						{
@@ -151,19 +180,22 @@ public class SHindex
 								query_result.add(dataid);
 							}						
 						}
+						int random_num=random.nextInt();
+						unique_trapdoor[l][a][hashkey].randomList.add(random_num);//往server2的unique_trapdoor的list里添加一个随机数
+						index[l][a][b].trapdoor=AES.encrypt_trapdoor(hashkey+randomSum+random_num);//更新server1里索引的trapdoor
 					}
 				}
 				
 			}
 		}		
 		//把查询结果写到文件里
-		queryresultwrite();
+		queryresultwrite(query_result_file );
 		System.out.println("SHindex->query_execute--END");
 	}
 	
 	
 	
-	public void queryresultwrite() throws IOException
+	public void queryresultwrite(String query_result_file) throws IOException
 	{
 		int result[]=new int[query_result.size()];
 		System.out.println("查询结果个数为："+query_result.size());
@@ -175,7 +207,7 @@ public class SHindex
 			i++;
 		}
 			
-		io.diskwrite_int("query_result.txt", result);
+		io.diskwrite_int(query_result_file, result);
 		
 	}
 }
