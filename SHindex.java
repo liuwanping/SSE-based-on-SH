@@ -147,6 +147,7 @@ public class SHindex
 		{
 			shg.tableindex(queryproduct, i, querytableresult[i]);
 		}
+		long startTime=System.currentTimeMillis();//查询开始时间
 		for(int a=0;a<Constants.Alter;a++)
 		{
 			for(int l=0;l<Lused;l++)
@@ -187,9 +188,11 @@ public class SHindex
 				}
 				
 			}
-		}		
+		}
+		long endTime=System.currentTimeMillis(); //查询结束时间
 		//把查询结果写到文件里
 		queryresultwrite(query_result_file );
+		System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
 		System.out.println("SHindex->query_execute--END");
 	}
 	
