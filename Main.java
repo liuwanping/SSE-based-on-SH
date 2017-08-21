@@ -42,9 +42,13 @@ public class Main
 		
 		
 		//执行查询
-		shi.query_execute(Constants.L,data[0], shg,"query_result1.txt");//data[99000]作为查询点
-		shi.query_execute(Constants.L,data[0], shg,"query_result2.txt");//data[99000]作为查询点
-		shi.query_execute(Constants.L,data[0], shg,"query_result3.txt");//data[99000]作为查询点
+//		shi.query_execute(Constants.L,data[0], shg,"query_result1.txt");//data[99000]作为查询点
+//		shi.query_execute(Constants.L,data[0], shg,"query_result2.txt");//data[99000]作为查询点
+//		shi.query_execute(Constants.L,data[0], shg,"query_result3.txt");//data[99000]作为查询点
+		
+		for (int i = 0; i <10; i++) {
+			shi.query_execute(Constants.L,data[0], shg,"query_result"+i);
+		}
 		
 		System.out.println("server2's unique_trapdoor:");
 		for (int i = 0; i < shi.unique_trapdoor.length; i++) {
