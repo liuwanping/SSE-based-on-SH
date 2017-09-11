@@ -367,6 +367,29 @@ public class AES {
 		AES aes = new AES(KeySize.Bits192, keys);
 		return new String(aes.cipher(Integer.toString(hashkey).getBytes()));
 	}
+	//º”√‹lsh_index
+	public static void encrypt_lsh_index(TrapdoorAndDataIDs[][] index)
+	{
+		System.out.println("encrypt_index");
+		byte[] keys = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+				0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17 };
+		AES aes = new AES(KeySize.Bits192, keys);
+		
+		for(int l=0;l<index.length;l++)
+		{
+			
+				for(int b=0;b<index[l].length;b++)
+				{
+					if(index[l][b].trapdoor!=null)
+					{
+						index[l][b].trapdoor=new String(aes.cipher(index[l][b].trapdoor.getBytes()));
+					}
+					
+				}
+			
+		}
+		System.out.println("encrypt_index--END");
+	}
 
 //	public static void main(String [] args)
 //	{

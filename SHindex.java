@@ -179,6 +179,7 @@ public class SHindex
 							if(!query_result.contains(dataid))//如果这个dataid还没加入到结果list中加进去
 							{
 								query_result.add(dataid);
+							
 							}						
 						}
 						int random_num=random.nextInt();

@@ -34,7 +34,7 @@ public class IO
 	//把一维数组写到文件（把每个data的半径写到文件里、把查询结果写到文件里）
 	public void diskwrite_int(String decision_file, int[] decision) throws IOException 
 	{
-		System.out.println("write R to file");
+		System.out.println("write R/result to file");
 		File file = new File(decision_file);
 		FileWriter out = new FileWriter(file);
 		for(int i=0;i<decision.length;i++)
@@ -43,7 +43,7 @@ public class IO
 			
 		}
 		out.close();
-		System.out.println("write R to file--END");
+		System.out.println("write R/result to file--END");
 	}
 	
 	//把二维数组写到文件（把每个data的KNN(k=20)写到文件里）
@@ -106,5 +106,30 @@ public class IO
 		}
 		
 		System.out.println("write index to file--END");
+	}
+	
+	//把二维数组写到文件（写lsh_index到文件里）
+	public void diskwritelsh_index(String lsh_index_file, TrapdoorAndDataIDs[][] lsh_index) throws IOException 
+	{
+		System.out.println("write lsh_index to file");
+		for(int i=0;i<lsh_index.length;i++)
+		{
+			String f3=lsh_index_file+"_g"+i;
+			File file = new File(f3);
+			FileWriter out = new FileWriter(file);
+			
+			for(int j=0;j<lsh_index[i].length;j++)
+			{
+				out.write("<"+lsh_index[i][j].trapdoor+",");
+				for(int dataid:lsh_index[i][j].dataids)
+				{
+					out.write(dataid+"\t");
+				}
+				out.write(">");
+				out.write("\r\n");
+			}
+			out.close();
+		}		
+		System.out.println("write lsh_index to file--END");
 	}
 }
