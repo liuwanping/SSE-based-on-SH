@@ -138,6 +138,52 @@ public class SHGeneral
 	    }
 	}
 	
+	public void lsh_tableindex(float product[], int lsh_R, int table[])
+	{
+	    int familyint[] = new int[Constants.familysize];
+
+	    // Choose the Radius Ratio according to passed index
+	    //float ratio = R[Rrank];
+
+	    /* Apply the linear classifier corresponding to each function.
+	       Linear classifier f() = w.x + w0
+	       product = w.x
+	       familyvector[i][D] = w0
+
+	       The hash function is a p-stable distribution hash function with
+	       the ratio indicating the slot/grid width. Larger the ratio, larger
+	       the slot width.
+	       */
+	    for(int i = 0; i < Constants.familysize; i++)
+	    {
+	        float temp = product[i];
+	        temp /=  lsh_R;                         // Standard method for LSH
+	        temp += familyvector[i][Constants.D];
+
+	        // Cast to an integer
+	        familyint[i] = (int)temp;
+	    }
+
+	    /* Now we have to compute the value of the hash function for each of
+	       the concatenative functions. Now, we know what 'M' random hashes
+	       consititute each concatenative function which is stored in hashtableindex.
+	       The rest is simple computation */
+	    for(int l = 0; l < Constants.L; l++)
+	    {
+	        table[l] = 0;
+	        for(int i = 0; i < Constants.M; i++)
+	        {
+	            // Start way to concatenate hash family
+	            table[l] ^= familyint[hashtableindex[l][i]] + 0x9e3779b9 + (table[l] << 6) + (table[l] >> 2);
+				//^= 表示“异或”，两个数的二进制形式异或，相同取0，不同取1
+	            //System.out.println("datahashresult:["+l+","+i+":"+table[l]+"]");
+	        }
+//	        if(table[l]<0)
+//	        	table[l]=table[l]&0xFFFFFFFFL;
+//	        System.out.println("table"+l+":"+table[l]);
+	    }
+	}
+	
 	
 }
 

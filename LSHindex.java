@@ -33,10 +33,10 @@ public class LSHindex
 	{
 		System.out.println("LSHindex->lsh_index_construct");
 		
-		for(int i=0;i<shg.decision.length;i++)
-		{
-			shg.decision[i]=Constants.lsh_R;
-		}
+//		for(int i=0;i<shg.decision.length;i++)
+//		{
+//			shg.decision[i]=Constants.lsh_R;
+//		}
 		
 		init_lsh_index();
 		
@@ -45,7 +45,7 @@ public class LSHindex
 	    {
 	        if(k % 20000 == 0)
 	        	System.out.println("current hashing data :"+k);
-	        shg.tableindex(shg.dataproduct[k], shg.decision[k], shg.datahashresult[k]);
+	        shg.lsh_tableindex(shg.dataproduct[k], Constants.lsh_R, shg.datahashresult[k]);
 	    }
 	    
 	    for(int j = 0; j < Constants.L; j++)
@@ -57,7 +57,7 @@ public class LSHindex
 	        for(int i = 0; i < Constants.datasize; i++)
 	        {
 	        	long z=0;
-	        	int trapdoor = 0;
+	        	//int trapdoor = 0;
 	        	if(shg.datahashresult[i][j]<0)
 	        	{
 	        		z=shg.datahashresult[i][j]&0xFFFFFFFFL;
@@ -121,7 +121,7 @@ public class LSHindex
 			queryproduct[i]=MyVector.dotproduct(Constants.D, query, shg.familyvector[i]);
 		}
 		
-		shg.tableindex(queryproduct, Constants.lsh_R, querytableresult);
+		shg.lsh_tableindex(queryproduct, Constants.lsh_R, querytableresult);
 		
 		
 		long startTime=System.currentTimeMillis();//查询开始时间

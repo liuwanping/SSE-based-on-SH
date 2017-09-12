@@ -72,7 +72,7 @@ public class Main
 		lshi.lsh_index_construct("decision.dat", shg);
 		
 		for (int i = 0; i <10; i++) {
-			lshi.query_execute(Constants.L,data[i], shg,"lsh_query_result0");//data[0]作为查询点
+			lshi.query_execute(Constants.L,data[i], shg,"lsh_query_result"+i);//data[0]作为查询点
 			//lshi.query_execute(Constants.L,data[99999], shg,"lsh_query_result1");//data[99000]作为查询点
 		}
 		

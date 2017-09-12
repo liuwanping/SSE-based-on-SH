@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -8,7 +10,9 @@ public class SHindex
 {
 	//索引
 	private TrapdoorAndDataIDs[][][] index=new TrapdoorAndDataIDs[Constants.L][Constants.Alter][Constants.bucketnum];
+	//private Map<String,ArrayList<Integer>>[][][] index_map=new Map[Constants.L][Constants.Alter][Constants.bucketnum];
 	
+
 	//陷门
 	public int querytableresult[][]=new int[Constants.Alter][Constants.L];
 	
@@ -34,7 +38,9 @@ public class SHindex
 			{
 				for(int b=0;b<Constants.bucketnum;b++)
 				{
-					index[l][a][b]=new TrapdoorAndDataIDs();	
+					index[l][a][b]=new TrapdoorAndDataIDs();
+					//index_map[l][a][b]=new HashMap<String,ArrayList<Integer>>();
+					//index_map[l][a][b].put("", new ArrayList<Integer>());
 					unique_trapdoor[l][a][b]=new TrapdoorAndRandomlList();
 				}
 			}
@@ -46,6 +52,11 @@ public class SHindex
 		System.out.println("SHindex->index_construct");
 		
 		init_index();
+		
+		//建索引时候插入时候用
+//		Map temp=new HashMap<String,ArrayList<Integer>>();
+//		ArrayList<Integer> al=new ArrayList<Integer>();
+//		temp.put("", al);
 		
 		// Compute an initial tableindex for all the datapoints
 	    for(int k = 0; k < Constants.datasize; k++)
@@ -82,6 +93,7 @@ public class SHindex
 	            
 	            index[j][trapdoor/Constants.bucketnum][hashkey].trapdoor=Integer.toString(hashkey);
 	            index[j][trapdoor/Constants.bucketnum][hashkey].dataids.add(i);
+	           // temp=index_map[j][trapdoor/Constants.bucketnum][hashkey];
 	            
 	        }
 	         
