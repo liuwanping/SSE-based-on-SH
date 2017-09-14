@@ -46,9 +46,10 @@ public class Main
 //		shi.query_execute(Constants.L,data[0], shg,"query_result2.txt");//data[99000]作为查询点
 //		shi.query_execute(Constants.L,data[0], shg,"query_result3.txt");//data[99000]作为查询点
 		
-		for (int i = 0; i <10; i++) {
+		for (int i = 0; i <Constants.calPoint; i++) {
 			shi.query_execute(Constants.L,data[i], shg,"query_result"+i);
 		}
+		
 		
 		
 		//print some server2's unique_trapdoor
@@ -71,12 +72,13 @@ public class Main
 		LSHindex lshi=new LSHindex();
 		lshi.lsh_index_construct("decision.dat", shg);
 		
-		for (int i = 0; i <10; i++) {
+		for (int i = 0; i <Constants.calPoint; i++) {
 			lshi.query_execute(Constants.L,data[i], shg,"lsh_query_result"+i);//data[0]作为查询点
 			//lshi.query_execute(Constants.L,data[99999], shg,"lsh_query_result1");//data[99000]作为查询点
 		}
-		
-		
+		System.out.println("calculate recall...");
+		Recall recall=new Recall();
+		System.out.println("recall of sse based on sh:"+recall.recall_compute("query_result"));
 		System.out.println("programme finished");
 	}
 }
