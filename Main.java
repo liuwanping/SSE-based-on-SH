@@ -79,6 +79,7 @@ public class Main
 		System.out.println("calculate recall...");
 		Recall recall=new Recall();
 		System.out.println("recall of sse based on sh:"+recall.recall_compute("query_result"));
+		System.out.println("recall of sse based on lsh:"+recall.recall_compute("lsh_query_result"));
 		System.out.println("programme finished");
 	}
 }

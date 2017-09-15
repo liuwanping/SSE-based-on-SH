@@ -10,8 +10,8 @@ public class Recall
 	
 	public double recall_compute(String resultfile) throws IOException
 	{
-		int samecount[]=new int[Constants.calPoint];
-		int recall[]=new int[Constants.calPoint];
+		double samecount[]=new double[Constants.calPoint];
+		double recall[]=new double[Constants.calPoint];
 		double sum_recall=0;
 		double average_recall=0;
 		
@@ -28,7 +28,8 @@ public class Recall
 				if(hasingknn.contains(dataknn[i][j]))
 					samecount[i]++;
 			}
-			recall[i]=samecount[i]/Constants.K;
+			System.out.println("samecount:"+samecount[i]);
+			recall[i]=samecount[i]/(double)Constants.K;
 		}
 		
 		for(int i=0;i<Constants.calPoint;i++)
@@ -36,6 +37,7 @@ public class Recall
 			System.out.print(recall[i]+",");
 			sum_recall=sum_recall+recall[i];
 		}
+		System.out.println();
 		average_recall=sum_recall/Constants.calPoint;
 		
 		return average_recall;

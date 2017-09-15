@@ -12,8 +12,8 @@ public class Constants
 	static final public float c = (float) 1.2;
 	static final public int thresholdpoint = (int)(3 * datasize/bucketnum);
 	static final public float thresholdtable = (int)(0.4 * L); 
-	static final public int K=50;
-	static final public int lsh_R=200;
+	static final public int K=90;
+	static final public int lsh_R=50;
 	static final public int calPoint=10;
 	//static final public int b = 2;
 	//static final public int R = 30;
